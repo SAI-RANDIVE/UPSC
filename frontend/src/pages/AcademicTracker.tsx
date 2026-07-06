@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { academicSubjects, sprintWeeks } from '../data/seedData';
 import { useAcademics } from '../store';
 import { daysUntil, formatDate } from '../utils';
@@ -39,8 +40,9 @@ const UNIT_TOPICS: Record<string, string[][]> = {
 export default function AcademicTracker() {
   const { unitProgress, toggleUnit } = useAcademics();
 
+  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   return (
-    <div>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#111', letterSpacing: '-0.02em' }}>Academic Tracker</h1>
         <p style={{ fontSize: 14, color: '#6B7280', marginTop: 4 }}>B.Tech CSE Sem-V · 4 Subjects · 5 Units Each</p>
@@ -61,10 +63,11 @@ export default function AcademicTracker() {
           const pct = (done / 5) * 100;
           const topics = UNIT_TOPICS[subj.id] || [];
 
-          return (
-            <div key={subj.id} className="card" style={{ padding: 24 }}>
+          const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={subj.id} className="card" style={{ padding: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-                <ProgressRing percentage={pct} size={72} strokeWidth={7} color={pct === 100 ? '#16A34A' : '#F97316'} />
+                <ProgressRing percentage={pct} size={72} strokeWidth={7} color={pct === 100 ? 'var(--color-primary)' : '#F97316'} />
                 <div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111' }}>{subj.name}</h3>
                   <div style={{ fontSize: 13, color: '#6B7280' }}>{done}/5 units · {daysUntil(subj.examDate!)} days left</div>
@@ -74,30 +77,31 @@ export default function AcademicTracker() {
                 {[1, 2, 3, 4, 5].map(unit => {
                   const isDone = progress[unit] || false;
                   const unitTopics = topics[unit - 1] || [];
-                  return (
-                    <div
+                  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}
                       key={unit}
                       onClick={() => toggleUnit(subj.id, unit)}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 10, cursor: 'pointer',
-                        background: isDone ? '#F0FDF4' : '#F9FAFB', border: `1px solid ${isDone ? '#BBF7D0' : '#F3F4F6'}`,
+                        background: isDone ? 'var(--color-primary-50)' : '#F9FAFB', border: `1px solid ${isDone ? 'var(--color-primary-100)' : '#F3F4F6'}`,
                         transition: 'all 0.15s',
                       }}
                     >
-                      {isDone ? <CheckCircle2 size={18} color="#16A34A" /> : <Circle size={18} color="#D1D5DB" />}
+                      {isDone ? <CheckCircle2 size={18} color="var(--color-primary)" /> : <Circle size={18} color="#D1D5DB" />}
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, color: isDone ? '#9CA3AF' : '#111', textDecoration: isDone ? 'line-through' : 'none' }}>
                           Unit {unit}
                         </div>
                         <div style={{ fontSize: 11, color: '#9CA3AF' }}>{unitTopics.join(' · ')}</div>
                       </div>
-                    </div>
-                  );
-                })}
+                    </motion.div>
+  );
+})}
               </div>
-            </div>
-          );
-        })}
+            </motion.div>
+  );
+})}
       </div>
 
       {/* Sprint Calendar */}
@@ -108,8 +112,9 @@ export default function AcademicTracker() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {sprintWeeks.map(week => {
             const isActive = new Date() >= new Date(week.startDate) && new Date() <= new Date(week.endDate);
-            return (
-              <div key={week.week} style={{
+            const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={week.week} style={{
                 display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', borderRadius: 12,
                 background: isActive ? '#FFF7ED' : '#F9FAFB', border: isActive ? '1px solid #FDBA74' : '1px solid transparent',
               }}>
@@ -121,11 +126,11 @@ export default function AcademicTracker() {
                   <div style={{ fontSize: 12, color: '#6B7280' }}>{week.dates}</div>
                 </div>
                 {isActive && <div className="pill pill-amber">Active</div>}
-              </div>
-            );
-          })}
+              </motion.div>
+  );
+})}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { upscPhases, upscSubjects, sampleMicroTopics } from '../data/seedData';
 import { useTopics, useSettings } from '../store';
@@ -22,8 +23,9 @@ export default function UPSCTracker() {
     return acc;
   }, {} as Record<string, { subject: typeof upscSubjects[0]; topics: typeof sampleMicroTopics; done: number; total: number }>);
 
+  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   return (
-    <div>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#111', letterSpacing: '-0.02em' }}>UPSC Tracker</h1>
         <p style={{ fontSize: 14, color: '#6B7280', marginTop: 4 }}>
@@ -34,7 +36,7 @@ export default function UPSCTracker() {
       {/* Overview */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
         <div className="card-hero" style={{ padding: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
-          <ProgressRing percentage={overallPct} size={80} color="#22C55E" />
+          <ProgressRing percentage={overallPct} size={80} color="var(--color-primary-light)" />
           <div>
             <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.6)' }}>Overall Progress</div>
             <div style={{ fontSize: 32, fontWeight: 800, marginTop: 4 }}>{doneTopics}/{totalTopics}</div>
@@ -60,18 +62,19 @@ export default function UPSCTracker() {
           {upscPhases.map(phase => {
             const isActive = new Date() >= new Date(phase.startDate) && new Date() <= new Date(phase.endDate);
             const isPast = new Date() > new Date(phase.endDate);
-            return (
-              <div key={phase.phase}>
+            const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={phase.phase}>
                 <div
                   onClick={() => setExpandedPhase(expandedPhase === phase.phase ? null : phase.phase)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderRadius: 12, cursor: 'pointer',
-                    background: isActive ? '#F0FDF4' : isPast ? '#F9FAFB' : 'transparent',
-                    border: isActive ? '1px solid #BBF7D0' : '1px solid transparent',
+                    background: isActive ? 'var(--color-primary-50)' : isPast ? '#F9FAFB' : 'transparent',
+                    border: isActive ? '1px solid var(--color-primary-100)' : '1px solid transparent',
                     transition: 'all 0.15s',
                   }}
                 >
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: isActive ? '#16A34A' : isPast ? '#D1D5DB' : '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 13, fontWeight: 700 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: isActive ? 'var(--color-primary)' : isPast ? '#D1D5DB' : '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 13, fontWeight: 700 }}>
                     {phase.phase}
                   </div>
                   <div style={{ flex: 1 }}>
@@ -93,9 +96,9 @@ export default function UPSCTracker() {
                     {phase.notes && <p><strong>Note:</strong> {phase.notes}</p>}
                   </div>
                 )}
-              </div>
-            );
-          })}
+              </motion.div>
+  );
+})}
         </div>
       </div>
 
@@ -109,13 +112,13 @@ export default function UPSCTracker() {
                 onClick={() => setExpandedSubject(expandedSubject === subject.id ? null : subject.id)}
                 style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 12, cursor: 'pointer', background: '#F9FAFB', transition: 'all 0.15s' }}
               >
-                <BookOpen size={18} color="#16A34A" />
+                <BookOpen size={18} color="var(--color-primary)" />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{subject.name}</div>
                   <div style={{ fontSize: 12, color: '#9CA3AF' }}>{done}/{total} days completed</div>
                 </div>
                 <div style={{ width: 60, height: 6, background: '#E5E7EB', borderRadius: 999, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${total > 0 ? (done / total) * 100 : 0}%`, background: '#16A34A', borderRadius: 999 }} />
+                  <div style={{ height: '100%', width: `${total > 0 ? (done / total) * 100 : 0}%`, background: 'var(--color-primary)', borderRadius: 999 }} />
                 </div>
                 {expandedSubject === subject.id ? <ChevronDown size={16} color="#9CA3AF" /> : <ChevronRight size={16} color="#9CA3AF" />}
               </div>
@@ -124,10 +127,11 @@ export default function UPSCTracker() {
                   {topics.map(topic => {
                     const status = topicStatuses[topic.id] || topic.status;
                     const isDone = status === 'done';
-                    return (
-                      <div key={topic.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 14px', borderRadius: 10, background: isDone ? '#F0FDF4' : 'white', border: '1px solid #F3F4F6' }}>
+                    const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={topic.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 14px', borderRadius: 10, background: isDone ? 'var(--color-primary-50)' : 'white', border: '1px solid #F3F4F6' }}>
                         <button onClick={() => setTopicStatus(topic.id, isDone ? 'pending' : 'done')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginTop: 1 }}>
-                          {isDone ? <CheckCircle2 size={18} color="#16A34A" /> : <Circle size={18} color="#D1D5DB" />}
+                          {isDone ? <CheckCircle2 size={18} color="var(--color-primary)" /> : <Circle size={18} color="#D1D5DB" />}
                         </button>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontSize: 13, fontWeight: 600, color: isDone ? '#9CA3AF' : '#111', textDecoration: isDone ? 'line-through' : 'none' }}>
@@ -146,15 +150,15 @@ export default function UPSCTracker() {
                             </div>
                           )}
                         </div>
-                      </div>
-                    );
-                  })}
+                      </motion.div>
+  );
+})}
                 </div>
               )}
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

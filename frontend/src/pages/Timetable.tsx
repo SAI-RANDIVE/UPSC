@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useMemo } from 'react';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { templateBlocks, collegeTimetable } from '../data/seedData';
@@ -31,8 +32,9 @@ export default function Timetable() {
     [dayName]
   );
 
+  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   return (
-    <div>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: '#111', letterSpacing: '-0.02em' }}>Timetable</h1>
@@ -61,7 +63,7 @@ export default function Timetable() {
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                   padding: '10px 14px', borderRadius: 12, border: 'none', cursor: 'pointer',
-                  background: selectedDay === i ? 'linear-gradient(135deg, #16A34A, #22C55E)' : 'transparent',
+                  background: selectedDay === i ? 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))' : 'transparent',
                   color: selectedDay === i ? 'white' : '#374151',
                   transition: 'all 0.15s', minWidth: 48,
                 }}
@@ -81,7 +83,7 @@ export default function Timetable() {
         {/* Daily Schedule */}
         <div className="card" style={{ padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Clock size={18} color="#16A34A" /> Full Day Schedule
+            <Clock size={18} color="var(--color-primary)" /> Full Day Schedule
           </h2>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
@@ -153,6 +155,6 @@ export default function Timetable() {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

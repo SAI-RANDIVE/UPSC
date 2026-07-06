@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { useContent } from '../store';
@@ -11,7 +12,7 @@ const STAGE_COLORS: Record<ContentStage, { bg: string; text: string }> = {
   scripted: { bg: '#FEF3C7', text: '#92400E' },
   shot: { bg: '#DBEAFE', text: '#1E40AF' },
   edited: { bg: '#EDE9FE', text: '#5B21B6' },
-  published: { bg: '#DCFCE7', text: '#15803D' },
+  published: { bg: '#DCFCE7', text: 'var(--color-primary-dark)' },
 };
 
 const SAMPLE_CONTENT: ContentItem[] = [
@@ -45,8 +46,9 @@ export default function ContentStudio() {
     updateItem(id, { stage });
   };
 
+  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   return (
-    <div>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: '#111', letterSpacing: '-0.02em' }}>Content Studio</h1>
@@ -67,7 +69,7 @@ export default function ContentStudio() {
           <input value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Content title..." style={{ width: '100%', padding: '10px 14px', border: '1px solid #E5E7EB', borderRadius: 10, fontSize: 14, marginBottom: 10, outline: 'none', fontFamily: 'inherit' }} />
           <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
             {(['reel', 'long_video'] as const).map(t => (
-              <button key={t} onClick={() => setNewType(t)} style={{ padding: '8px 16px', borderRadius: 8, border: `1px solid ${newType === t ? '#16A34A' : '#E5E7EB'}`, background: newType === t ? '#F0FDF4' : 'white', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: newType === t ? '#16A34A' : '#6B7280' }}>
+              <button key={t} onClick={() => setNewType(t)} style={{ padding: '8px 16px', borderRadius: 8, border: `1px solid ${newType === t ? 'var(--color-primary)' : '#E5E7EB'}`, background: newType === t ? 'var(--color-primary-50)' : 'white', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: newType === t ? 'var(--color-primary)' : '#6B7280' }}>
                 {t === 'reel' ? '📱 Reel/Short' : '🎬 Long Video'}
               </button>
             ))}
@@ -85,17 +87,18 @@ export default function ContentStudio() {
           {weekDays.map(day => {
             const dayStr = format(day, 'yyyy-MM-dd');
             const dayItems = allItems.filter(i => i.date === dayStr);
-            return (
-              <div key={dayStr} style={{ padding: 12, borderRadius: 12, background: '#F9FAFB', minHeight: 100, border: '1px solid #F3F4F6' }}>
+            const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={dayStr} style={{ padding: 12, borderRadius: 12, background: '#F9FAFB', minHeight: 100, border: '1px solid #F3F4F6' }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', marginBottom: 8 }}>{format(day, 'EEE d')}</div>
                 {dayItems.map(item => (
                   <div key={item.id} style={{ fontSize: 11, padding: '4px 8px', borderRadius: 6, background: item.contentType === 'long_video' ? '#EDE9FE' : '#DBEAFE', color: item.contentType === 'long_video' ? '#5B21B6' : '#1E40AF', marginBottom: 4, fontWeight: 500 }}>
                     {item.contentType === 'long_video' ? '🎬' : '📱'} {item.title.slice(0, 20)}
                   </div>
                 ))}
-              </div>
-            );
-          })}
+              </motion.div>
+  );
+})}
         </div>
       </div>
 
@@ -106,8 +109,9 @@ export default function ContentStudio() {
           {STAGES.map(stage => {
             const stageItems = allItems.filter(i => i.stage === stage);
             const sc = STAGE_COLORS[stage];
-            return (
-              <div key={stage} style={{ minWidth: 180 }}>
+            const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  return (
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} key={stage} style={{ minWidth: 180 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, padding: '6px 12px', borderRadius: 8, background: sc.bg }}>
                   <span style={{ fontSize: 12, fontWeight: 700, color: sc.text, textTransform: 'capitalize' }}>{stage}</span>
                   <span style={{ fontSize: 11, fontWeight: 600, color: sc.text, opacity: 0.6 }}>({stageItems.length})</span>
@@ -130,11 +134,11 @@ export default function ContentStudio() {
                     </div>
                   ))}
                 </div>
-              </div>
-            );
-          })}
+              </motion.div>
+  );
+})}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

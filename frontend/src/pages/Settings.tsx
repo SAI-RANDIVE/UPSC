@@ -1,11 +1,13 @@
+import { motion } from 'framer-motion';
 import { useSettings } from '../store';
 import { Settings as SettingsIcon, Calendar, Clock, User, Bell, BookOpen } from 'lucide-react';
 
 export default function SettingsPage() {
   const { settings, updateSettings, prelimsDate, mainsDate, setPrelimsDate, setMainsDate } = useSettings();
 
+  const containerVariants: any = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   return (
-    <div>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#111', letterSpacing: '-0.02em' }}>Settings</h1>
         <p style={{ fontSize: 14, color: '#6B7280', marginTop: 4 }}>Manage your preferences and configuration</p>
@@ -15,7 +17,7 @@ export default function SettingsPage() {
         {/* Exam Dates */}
         <div className="card" style={{ padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Calendar size={18} color="#16A34A" /> Exam Dates
+            <Calendar size={18} color="var(--color-primary)" /> Exam Dates
           </h2>
           <p style={{ fontSize: 13, color: '#9CA3AF', marginBottom: 16 }}>
             UPSC dates are placeholders. Update when official notification is released — all countdowns will auto-recalculate.
@@ -104,7 +106,7 @@ export default function SettingsPage() {
               onClick={() => updateSettings({ notifEmail: !settings.notifEmail })}
               style={{
                 width: 48, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer',
-                background: settings.notifEmail ? '#16A34A' : '#D1D5DB',
+                background: settings.notifEmail ? 'var(--color-primary)' : '#D1D5DB',
                 position: 'relative', transition: 'background 0.2s',
               }}
             >
@@ -118,6 +120,6 @@ export default function SettingsPage() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
