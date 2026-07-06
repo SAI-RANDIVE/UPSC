@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PRD — Mission 2027 | Sai Ranadive Personal Command Center</title>
+<style>
+  body{background:#ffffff;color:#000000;font-family:Arial,Helvetica,sans-serif;line-height:1.55;margin:0;padding:0 40px 80px;}
+  .cover{text-align:center;padding:60px 0 30px;border-bottom:3px solid #000;margin-bottom:30px;}
+  .cover h1{font-size:34px;margin-bottom:6px;}
+  .cover h2{font-size:18px;font-weight:normal;color:#000;margin-top:0;}
+  h1{font-size:26px;border-bottom:2px solid #000;padding-bottom:6px;margin-top:55px;}
+  h2{font-size:20px;border-bottom:1px solid #000;padding-bottom:4px;margin-top:35px;}
+  h3{font-size:16px;margin-top:25px;}
+  h4{font-size:14px;margin-top:18px;text-decoration:underline;}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px;}
+  th,td{border:1px solid #000;padding:6px 8px;text-align:left;vertical-align:top;}
+  th{background:#ffffff;font-weight:bold;}
+  code, pre{font-family:"Courier New",monospace;font-size:12.5px;}
+  pre{border:1px solid #000;padding:10px;overflow-x:auto;white-space:pre-wrap;}
+  .toc{border:1px solid #000;padding:16px 24px;margin-bottom:30px;}
+  .toc a{color:#000;text-decoration:none;}
+  .toc a:hover{text-decoration:underline;}
+  .flag{border:1px dashed #000;padding:8px 12px;margin:10px 0;font-size:13px;}
+  .metric{display:inline-block;border:1px solid #000;padding:10px 18px;margin:6px 10px 6px 0;text-align:center;}
+  .metric b{font-size:22px;display:block;}
+  ul,ol{margin-top:4px;}
+  .small{font-size:12px;}
+  hr{border:none;border-top:1px solid #000;margin:40px 0;}
+  .tag{border:1px solid #000;padding:1px 6px;font-size:11px;margin-right:4px;}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>PRODUCT REQUIREMENTS DOCUMENT</h1>
+  <h2>"Mission 2027" — Sai Ranadive's Personalised Command Center</h2>
+  <p>UPSC CSE 2027 Preparation &nbsp;|&nbsp; B.Tech CSE Sem-V Academics &nbsp;|&nbsp; YouTube &amp; Instagram Content Creation</p>
+  <p class="small">Document prepared: 06 July 2026 &nbsp;|&nbsp; Owner: Sai Ranadive &nbsp;|&nbsp; Version 1.0</p>
+</div>
+
+<div class="toc">
+<b>Table of Contents</b>
+<ol>
+<li><a href="#sec1">Purpose &amp; Scope</a></li>
+<li><a href="#sec2">Personal Profile &amp; Key Countdown Dates</a></li>
+<li><a href="#sec3">Weekly Time Audit</a></li>
+<li><a href="#sec4">Master Weekly Timetable (Hour-by-Hour)</a></li>
+<li><a href="#sec5">UPSC GS Macro-Roadmap (Jul 2026 – Aug 2027)</a></li>
+<li><a href="#sec6">Academic Exam Sprint Plan (Oct–Nov 2026)</a></li>
+<li><a href="#sec7">YouTube / Content Creation System</a></li>
+<li><a href="#sec8">Auto-Adjust / Rescheduling Engine</a></li>
+<li><a href="#sec9">Product Feature List</a></li>
+<li><a href="#sec10">Design System (Visual Language)</a></li>
+<li><a href="#sec11">Information Architecture / Sitemap</a></li>
+<li><a href="#sec12">Database Schema</a></li>
+<li><a href="#sec13">API Specification</a></li>
+<li><a href="#sec14">Tech Stack &amp; Hosting Architecture</a></li>
+<li><a href="#sec15">Non-Functional Requirements</a></li>
+<li><a href="#sec16">Build Roadmap for the Coding Agent</a></li>
+<li><a href="#sec17">Appendix — Seed Data Formats</a></li>
+</ol>
+</div>
+
+<h1 id="sec1">1. Purpose &amp; Scope</h1>
+<p>Build a single, personal, password-protected web application — <b>"Mission 2027"</b> — that merges three parallel tracks into one interactive daily/weekly planner and tracker:</p>
+<ol>
+<li><b>UPSC CSE 2027 preparation</b> (Prelims + Mains + Optional), driven by the Margdarshan IAS Micro-Planner content supplied.</li>
+<li><b>B.Tech CSE Semester-V academics</b> at Symbiosis Institute of Technology — four exam subjects (Theory of Computation, Computer Networks, Design &amp; Analysis of Algorithms, Financial Mathematics), each with 5 units (theory + practical), plus the fixed college timetable.</li>
+<li><b>Content creation</b> — one weekly long-form YouTube video + daily Reels/Shorts on Maharashtra politics (Vidhan Sabha/Vidhan Parishad coverage), largely in Marathi.</li>
+</ol>
+<p>The app must auto-generate Sai's daily schedule from his college timetable + fixed travel time, track completion of every planned block, and <b>auto-reschedule</b> anything missed instead of just showing it as failed. It will be built as a React + TypeScript + Tailwind single-page app, hosted free on Netlify, backed by a minimal Node/Express API hosted free on Render, with Neon Postgres as the database.</p>
+
+<div class="flag"><b>Correction to spec assumption:</b> a browser cannot speak the Postgres wire protocol directly, so a thin API layer is mandatory to talk to Neon — it cannot be skipped. The good news: that layer is tiny (a handful of CRUD routes, see Section 13), can run on Render's free tier, and requires no heavy backend engineering. Node + Express (or Fastify) is the right minimal choice for it — this is not a contradiction of "no big backend," it is exactly the "no much backend needed" version.</div>
+
+<h1 id="sec2">2. Personal Profile &amp; Key Countdown Dates</h1>
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Name</td><td>Sai Ranadive</td></tr>
+<tr><td>Date of Birth</td><td>24 April 2005</td></tr>
+<tr><td>Current Age (as of 06 Jul 2026)</td><td>21 — turns 22 on 24 Apr 2027 (before Prelims)</td></tr>
+<tr><td>Course</td><td>B.Tech CSE, Symbiosis Institute of Technology, Pune — Batch 2024–28, Sem V, Div B</td></tr>
+<tr><td>UPSC Attempt</td><td>CSE 2027 (first attempt)</td></tr>
+<tr><td>Today's Date</td><td>Monday, 06 July 2026</td></tr>
+</table>
+
+<div class="flag"><b>Assumption flagged:</b> UPSC has not yet notified exact 2027 dates. Historically Prelims falls on the <b>last Sunday of May</b> and Mains starts in the <b>third week of August</b>. This PRD uses <b>23 May 2027 (Prelims)</b> and <b>20 August 2027 (Mains, Day 1)</b> as placeholders. The app must store these as <i>editable settings</i> (not hardcoded) so Sai can correct them the moment UPSC releases the real notification — every countdown on the dashboard should recompute live from that setting.</div>
+
+<table>
+<tr><th>Milestone</th><th>Placeholder Date</th><th>Days remaining from 06 Jul 2026</th><th>Weeks remaining</th></tr>
+<tr><td>UPSC Prelims 2027</td><td>Sun, 23 May 2027</td><td><b>321 days</b></td><td>~45.9 weeks</td></tr>
+<tr><td>UPSC Mains 2027</td><td>Fri, 20 Aug 2027</td><td><b>410 days</b></td><td>~58.6 weeks</td></tr>
+<tr><td>ToC Exam</td><td>Tue, 17 Nov 2026</td><td>134 days</td><td>19.1 weeks</td></tr>
+<tr><td>Computer Networks Exam</td><td>Thu, 19 Nov 2026</td><td>136 days</td><td>19.4 weeks</td></tr>
+<tr><td>DAA Exam</td><td>Tue, 24 Nov 2026</td><td>141 days</td><td>20.1 weeks</td></tr>
+<tr><td>Financial Mathematics Exam</td><td>Thu, 26 Nov 2026</td><td>143 days</td><td>20.4 weeks</td></tr>
+</table>
+<p class="small">These "days remaining" figures must be computed live by the app (server date − target date), never hardcoded — the numbers above are simply the reference values as of the date this PRD was written.</p>
+
+<h1 id="sec3">3. Weekly Time Audit</h1>
+<p>Total hours in a week = 168. Fixed, non-negotiable blocks first:</p>
+<table>
+<tr><th>Category</th><th>Hours/week</th><th>Notes</th></tr>
+<tr><td>Sleep (7 hrs × 7)</td><td>49</td><td>10:30 PM–5:30 AM weekdays; slightly flexible weekends</td></tr>
+<tr><td>College (in-seat, Mon–Sat)</td><td>~24.5</td><td>Per official timetable, incl. free periods spent on campus</td></tr>
+<tr><td>Travel (2 hrs/day × 6 college days)</td><td>12</td><td>1 hr each way, fixed</td></tr>
+<tr><td>Meals (breakfast/lunch/dinner)</td><td>~10.5</td><td>1.5 hr/day total</td></tr>
+<tr><td>Freshening/buffer</td><td>~5</td><td>Morning + evening transitions</td></tr>
+<tr><td><b>Remaining discretionary hours</b></td><td><b>~67</b></td><td>Split below</td></tr>
+</table>
+<table>
+<tr><th>Discretionary Allocation</th><th>Hours/week</th></tr>
+<tr><td>UPSC deep study (new content + revision)</td><td>~33</td></tr>
+<tr><td>Academic self-study (baseline; expands during exam sprint — Section 6)</td><td>~6</td></tr>
+<tr><td>Content creation (scripting, shooting, editing, posting)</td><td>~11</td></tr>
+<tr><td>Answer-writing practice / mocks (UPSC)</td><td>~3</td></tr>
+<tr><td>Weekly review, planning, rest, family/BJYM commitments</td><td>~14</td></tr>
+</table>
+
+<h1 id="sec4">4. Master Weekly Timetable (Hour-by-Hour)</h1>
+<p>This is the exact recurring schedule the app must render on the Timetable page, generated by merging the fixed college periods (image upload data below) with fixed travel/sleep/meal anchors and the discretionary blocks.</p>
+
+<h3>4.1 Fixed College Timetable (source of truth — seed once, editable in Settings)</h3>
+<table>
+<tr><th>Day</th><th>8:45–9:40</th><th>9:40–10:35</th><th>10:40–11:35</th><th>11:35–12:30</th><th>12:30–1:25</th><th>1:25–2:20</th><th>2:25–3:20</th><th>3:25–4:20</th></tr>
+<tr><td>Mon</td><td>Free</td><td>Free</td><td>Free</td><td>Lunch</td><td>CN</td><td>DAA</td><td>Free</td><td>Free</td></tr>
+<tr><td>Tue</td><td>DAA</td><td>Free</td><td>FM2/FM3 Lab</td><td>Lunch</td><td>CN</td><td>TOC</td><td>POE</td><td>POE</td></tr>
+<tr><td>Wed</td><td colspan="2">DAAL (Lab, B3)</td><td>FM2/FM3 Lab</td><td>Lunch</td><td>TOC</td><td>Free</td><td>Free</td><td>Free</td></tr>
+<tr><td>Thu</td><td>CN</td><td>Free</td><td>FM2/FM3 Lab</td><td>Lunch</td><td>Free</td><td>Free</td><td colspan="2">Flexi (AKK)</td></tr>
+<tr><td>Fri</td><td>Free</td><td>Free</td><td>Free</td><td>Lunch</td><td>TOC</td><td>DAA</td><td colspan="2">CNL (B3)</td></tr>
+<tr><td>Sat</td><td>Free</td><td>Free</td><td>Free</td><td>Lunch</td><td>Flexi</td><td>Flexi</td><td>Free</td><td>Free</td></tr>
+</table>
+
+<h3>4.2 Weekday Full-Day Template (Mon–Fri)</h3>
+<table>
+<tr><th>Time</th><th>Block</th><th>Category</th></tr>
+<tr><td>05:00–05:20</td><td>Wake, freshen, water</td><td>Routine</td></tr>
+<tr><td>05:20–06:45</td><td>UPSC Deep Study — Block A (current GS-phase subject)</td><td>UPSC</td></tr>
+<tr><td>06:45–07:30</td><td>Breakfast + get ready</td><td>Routine</td></tr>
+<tr><td>07:30–08:45</td><td>Travel to college (1 hr + 15 min buffer)</td><td>Travel</td></tr>
+<tr><td>08:45–11:35</td><td>College — classes as per timetable; FREE periods = Current Affairs / newspaper reading (light-load, phone/tablet notes)</td><td>College + light UPSC</td></tr>
+<tr><td>11:35–12:30</td><td>Lunch at campus</td><td>Meal</td></tr>
+<tr><td>12:30–16:20</td><td>College — classes as per timetable; FREE periods = Optional subject reading / one answer-writing question</td><td>College + light UPSC</td></tr>
+<tr><td>16:20–17:20</td><td>Travel home</td><td>Travel</td></tr>
+<tr><td>17:20–17:45</td><td>Freshen + snack</td><td>Routine</td></tr>
+<tr><td>17:45–19:00</td><td>Content Creation Block (edit + post 1 Reel/Short; Thu/Fri also = long-video scripting)</td><td>Content</td></tr>
+<tr><td>19:00–19:45</td><td>Dinner (family time)</td><td>Meal</td></tr>
+<tr><td>19:45–21:45</td><td>UPSC Deep Study — Block B (GS-phase subject / optional / answer writing)</td><td>UPSC</td></tr>
+<tr><td>21:45–22:30</td><td>Academic subject study (baseline 45 min; auto-expands during exam sprint)</td><td>Academics</td></tr>
+<tr><td>22:30–22:45</td><td>Tick tracker for the day, plan tomorrow</td><td>Review</td></tr>
+<tr><td>22:45</td><td>Lights out (target 05:20 wake → 7 hr sleep)</td><td>Sleep</td></tr>
+</table>
+
+<h3>4.3 Saturday Template (partial college day)</h3>
+<table>
+<tr><th>Time</th><th>Block</th></tr>
+<tr><td>05:30–07:00</td><td>UPSC Deep Study (90 min)</td></tr>
+<tr><td>07:00–07:45</td><td>Breakfast</td></tr>
+<tr><td>07:45–08:45</td><td>Travel to college</td></tr>
+<tr><td>08:45–16:20</td><td>College (mostly free periods — weekly current-affairs consolidation, content planning calls with Washim co-convenor)</td></tr>
+<tr><td>16:20–17:20</td><td>Travel home</td></tr>
+<tr><td>17:20–18:00</td><td>Rest/snack</td></tr>
+<tr><td>18:00–20:00</td><td>Batch-record next week's Reels/Shorts (solo, iPhone 16 + Blackmagic Camera app)</td></tr>
+<tr><td>20:00–20:45</td><td>Dinner</td></tr>
+<tr><td>20:45–22:00</td><td>UPSC Deep Study / Optional (75 min)</td></tr>
+<tr><td>22:00–22:30</td><td>Organise footage; plan Sunday long-video shoot</td></tr>
+<tr><td>22:30</td><td>Sleep</td></tr>
+</table>
+
+<h3>4.4 Sunday Template (anchor day — fully free)</h3>
+<table>
+<tr><th>Time</th><th>Block</th></tr>
+<tr><td>06:00–08:00</td><td>UPSC Deep Study (toughest topic / Optional subject, 120 min)</td></tr>
+<tr><td>08:00–09:00</td><td>Breakfast + BJYM/family time</td></tr>
+<tr><td>09:00–12:00</td><td>UPSC Mains-style Answer Writing Practice (3 questions / 1 essay) + self-evaluation</td></tr>
+<tr><td>12:00–13:00</td><td>Lunch</td></tr>
+<tr><td>13:00–16:00</td><td><b>Weekly long-form YouTube video</b>: script finalisation (from the week's Vidhan Sabha/Parishad session news), shoot, rough edit</td></tr>
+<tr><td>16:00–16:30</td><td>Break</td></tr>
+<tr><td>16:30–18:30</td><td>Academic deep study (2 hrs; expands in exam sprint)</td></tr>
+<tr><td>18:30–19:00</td><td>Final edit/export/schedule of long video</td></tr>
+<tr><td>19:00–19:45</td><td>Dinner</td></tr>
+<tr><td>19:45–21:00</td><td>Weekly Review Ritual: tick the full week, view analytics, resolve auto-adjust backlog, plan next week's subject targets</td></tr>
+<tr><td>21:00–22:00</td><td>Personal time / rest</td></tr>
+<tr><td>22:00</td><td>Sleep</td></tr>
+</table>
+
+<h1 id="sec5">5. UPSC GS Macro-Roadmap (Jul 2026 – Aug 2027)</h1>
+<p>Built directly from the Margdarshan IAS Macro Timetable + Subject-wise Micro-Planner supplied. Two GS subjects run in parallel each phase (one in the Morning block, one in the Evening block, per Section 4.2).</p>
+<table>
+<tr><th>Phase</th><th>Calendar Window</th><th>Morning-block Subject</th><th>Evening-block Subject</th><th>Micro-Planner Days</th><th>Notes</th></tr>
+<tr><td>1</td><td>Jul – Sep 2026</td><td>Polity</td><td>Economy &amp; Agriculture</td><td>32 + 30 = 62</td><td>Optional Paper 1 reading interleaved on Sundays</td></tr>
+<tr><td>2</td><td>Oct 2026 (compressed — see Sec. 6)</td><td>Geography</td><td>Environment + Disaster Mgmt</td><td>28 + 20 + 6 = 54</td><td>UPSC hours shrink from ~15 Oct as academic sprint begins</td></tr>
+<tr><td>3</td><td>Late Nov – Dec 2026</td><td>Internal Security</td><td>Indian Society</td><td>6 + 16 = 22</td><td>Resumes after Nov 26 academic exams end; absorbs any backlog</td></tr>
+<tr><td>4</td><td>Dec 2026 – Jan 2027</td><td>Ethics (GS-IV)</td><td>Governance</td><td>20 + 12 = 32</td><td>Includes Ethics Case-Study module (Days 12–16)</td></tr>
+<tr><td>5</td><td>Jan – Feb 2027</td><td>History</td><td>Science &amp; Technology</td><td>30 + 20 = 50</td><td>&nbsp;</td></tr>
+<tr><td>6</td><td>Feb – Mar 2027</td><td>International Relations</td><td>Buffer / catch-up</td><td>14</td><td>"60% syllabus covered" checkpoint per planner falls end of Phase 2</td></tr>
+<tr><td>7</td><td>Mar – Apr 2027 (~8 wks)</td><td colspan="2">Full-syllabus revision + Prelims Test Series + 16-Year PYQ Microtheme practice (all subjects)</td><td>—</td><td>Use Margdarshan Prelims PYQ Microtheme Combo</td></tr>
+<tr><td>8</td><td>May 2027</td><td colspan="2">Final revision only, tapering; Prelims exam window (23 May placeholder)</td><td>—</td><td>No new content in final 10 days</td></tr>
+<tr><td>9</td><td>Jun – Aug 2027</td><td colspan="2">Mains-focused: daily answer writing, Optional Paper 2, Essay, GS Mains PYQ level-wise analysis</td><td>—</td><td>Ramps from 3 to 15+ answers/day</td></tr>
+</table>
+<p class="small"><b>Optional Subject</b> is stored as a free-text setting (<code>settings.optional_subject_name</code>) since it is not specified in source material — the app must prompt for it once during onboarding and slot it into every "Optional" reference above.</p>
+
+<h1 id="sec6">6. Academic Exam Sprint Plan (Oct 15 – Nov 26, 2026)</h1>
+<p>Four subjects, each with 5 units (theory + practical combined). This is the one period where the app automatically overrides the default template (see Section 8 — Auto-Adjust Engine, "scheduled override rule").</p>
+<table>
+<tr><th>Week</th><th>Dates</th><th>Focus</th></tr>
+<tr><td>1</td><td>15–21 Oct</td><td>Unit 1 — all 4 subjects (rotate one subject/day)</td></tr>
+<tr><td>2</td><td>22–28 Oct</td><td>Unit 2 — all 4 subjects</td></tr>
+<tr><td>3</td><td>29 Oct – 4 Nov</td><td>Unit 3 — all 4 subjects</td></tr>
+<tr><td>4</td><td>5–11 Nov</td><td>Unit 4 — all 4 subjects</td></tr>
+<tr><td>5</td><td>12–16 Nov</td><td>Unit 5 + full revision, priority: <b>ToC &amp; CN</b> (exams 17 &amp; 19 Nov)</td></tr>
+<tr><td>—</td><td>17 Nov (Tue)</td><td><b>Theory of Computation exam</b></td></tr>
+<tr><td>—</td><td>18 Nov (Wed)</td><td>CN final revision day</td></tr>
+<tr><td>—</td><td>19 Nov (Thu)</td><td><b>Computer Networks exam</b></td></tr>
+<tr><td>6</td><td>20–23 Nov</td><td>DAA + Financial Mathematics Unit 5, revision, PYQs</td></tr>
+<tr><td>—</td><td>24 Nov (Tue)</td><td><b>DAA exam</b></td></tr>
+<tr><td>—</td><td>25 Nov (Wed)</td><td>Financial Mathematics final revision</td></tr>
+<tr><td>—</td><td>26 Nov (Thu)</td><td><b>Financial Mathematics exam</b></td></tr>
+<tr><td>—</td><td>27 Nov onward</td><td>Full return to UPSC Deep-Study mode; app surfaces any GS-phase backlog banked during the sprint for catch-up</td></tr>
+</table>
+
+<h3>Exam-Sprint Daily Template Override (auto-applied 15 Oct – 26 Nov)</h3>
+<table>
+<tr><th>Slot</th><th>Default</th><th>Sprint Override</th></tr>
+<tr><td>19:45–21:45 (UPSC Block B)</td><td>2 hrs new UPSC content</td><td>Reduced to 30 min — revision-only, "maintenance mode," streak preserved</td></tr>
+<tr><td>21:45–22:30 (Academics)</td><td>45 min</td><td>Expanded to 21:15–23:00 (1 hr 45 min), rotating unit per Section 6 table</td></tr>
+<tr><td>17:45–19:00 (Content)</td><td>Full edit + post</td><td>Reduced to 30 min — essential posting only; long-video keeps running but content team (co-convenor) carries more of the weekly load</td></tr>
+</table>
+
+<h1 id="sec7">7. YouTube / Content Creation System</h1>
+<table>
+<tr><th>Output</th><th>Cadence</th><th>Workflow Stages (tracked as a Kanban)</th></tr>
+<tr><td>Long-form video — "Sai Ranadive – Maharashtra Bolto" (@SaiRanadive)</td><td>1 / week</td><td>Idea → Script → Shoot → Edit → Published</td></tr>
+<tr><td>Instagram Reels / YouTube Shorts (@sai_ranadive24)</td><td>Daily (batch-shot Saturdays, edited/posted daily)</td><td>Idea → Shot → Edited → Published</td></tr>
+</table>
+<p>Content is 90% Marathi, centred on Maharashtra Vidhan Sabha / Vidhan Parishad session coverage, produced in collaboration with a social-media co-convenor friend in Washim district. The Content Studio page in the app must show a weekly content calendar (Mon–Sun grid) plus a Kanban board of the current pipeline, with due-date badges exactly like the reference dashboard's "Project" card (icon + title + due date + status pill: Pending / In Progress / Completed).</p>
+
+<h1 id="sec8">8. Auto-Adjust / Rescheduling Engine</h1>
+<p>This is the core differentiator of the app: nothing that gets missed simply disappears or sits marked "failed" forever — it flows forward.</p>
+<h3>8.1 Rule 1 — Missed Task Rollover</h3>
+<pre>
+IF a study_session's status is still "pending" after 23:59 on its planned_date:
+    SET status = "missed"
+    FIND next available slot of the SAME category (upsc_gs / academic / content)
+        within the next 2 calendar days
+    RE-INSERT the topic at that slot, shifting any already-queued topics
+        for that category forward by one slot each (FIFO queue per subject)
+    LOG the shift in an audit trail (original_date, new_date, reason)
+</pre>
+<h3>8.2 Rule 2 — Scheduled Template Override (date-ranged)</h3>
+<pre>
+overrides = [
+  { from: "2026-10-15", to: "2026-11-26", template: "exam_sprint" }
+]
+ON every dashboard load / daily cron:
+    activeTemplate = overrides.find(o => today BETWEEN o.from AND o.to)?.template
+                     ?? "default"
+    RENDER today's schedule using activeTemplate's block map (Section 6 table)
+</pre>
+<h3>8.3 Rule 3 — Buffer &amp; Pace Tracking</h3>
+<pre>
+bufferDays = count(Sundays/holidays where all planned blocks were completed early)
+backlogDays = count(pending micro_topics whose planned_date &lt; today)
+paceStatus =
+    backlogDays == 0                      -> "green"  (on pace)
+    backlogDays &lt;= bufferDays              -> "amber"  (absorbable via banked buffer)
+    backlogDays &gt; bufferDays               -> "red"    (needs a catch-up weekend / plan reshuffle)
+DISPLAY paceStatus as a coloured badge on the Dashboard next to
+    "Days to Prelims" and "Days to Mains" counters.
+</pre>
+<h3>8.4 Rule 4 — Streaks</h3>
+<p>Independent streak counters per category (UPSC / Academics / Content). A day counts toward the streak if ≥ 80% of that category's planned minutes for the day were logged as complete. Missing a day resets that category's streak to 0 but does not touch the other two.</p>
+
+<h1 id="sec9">9. Product Feature List</h1>
+<table>
+<tr><th>Page</th><th>Core Features</th></tr>
+<tr><td>Landing Page</td><td>Hero with live countdown to Prelims &amp; Mains, tagline, "Enter Dashboard" CTA, subtle animated background</td></tr>
+<tr><td>Login</td><td>Single-user PIN/password (JWT), "remember me"</td></tr>
+<tr><td>Dashboard</td><td>Countdown cards (Prelims/Mains/next academic exam), today's full schedule with tick-boxes, weekly bar (S–S) of completion %, streak badges, pace-status badge, quick-add task, reminders card</td></tr>
+<tr><td>Timetable</td><td>Interactive week view (drag to mark done/missed), toggle Default vs Exam-Sprint template, editable college timetable in Settings</td></tr>
+<tr><td>UPSC Tracker</td><td>Macro-roadmap phase progress bars, day-by-day micro-topic checklist per GS subject (seeded from the Micro-Planner PDF), resource links per topic, PYQ/test-series log, answer-writing counter</td></tr>
+<tr><td>Academic Tracker</td><td>4 subject cards (ToC/CN/DAA/FinMath), 5-unit progress rings each, exam countdown per subject, Sprint calendar view (Section 6)</td></tr>
+<tr><td>Content Studio</td><td>Weekly content calendar grid, Kanban pipeline (Idea→Script→Shoot→Edit→Published), long-video vs reel toggle, publish-date scheduler</td></tr>
+<tr><td>Analytics</td><td>Hours-studied trend (line chart), category split (donut), streak history, pace-status history over time</td></tr>
+<tr><td>Settings</td><td>Editable Prelims/Mains dates, optional subject name, wake/sleep time, travel time, college timetable editor, notification preferences</td></tr>
+</table>
+
+<h1 id="sec10">10. Design System (Visual Language)</h1>
+<p>Reference: the attached "Donezo" dashboard mockup. Replicate its structure and typographic rhythm exactly:</p>
+<table>
+<tr><th>Token</th><th>Value</th></tr>
+<tr><td>Base font</td><td>"Inter" (or "Plus Jakarta Sans") — system fallback sans-serif</td></tr>
+<tr><td>Page background</td><td>#F5F6FA (very light cool gray)</td></tr>
+<tr><td>Card background</td><td>#FFFFFF, border-radius 20px, subtle shadow (0 2px 12px rgba(0,0,0,0.04))</td></tr>
+<tr><td>Primary accent</td><td>#16A34A (green) — used for primary buttons, progress rings, active bars</td></tr>
+<tr><td>Dark accent card</td><td>#0F2B1D → #163B24 gradient (used for the top "hero stat" card, mirroring "Total Projects" card style)</td></tr>
+<tr><td>Body text</td><td>#111111 headings, #6B7280 secondary text</td></tr>
+<tr><td>Status pills</td><td>Completed = green bg/green text; In Progress = amber bg/amber text; Pending = red bg/red text — rounded-full, small caps</td></tr>
+<tr><td>Sidebar</td><td>Fixed left, 240px, icon + label nav items (Dashboard, Timetable, UPSC Tracker, Academic Tracker, Content Studio, Analytics, Settings, Logout), active item = green left-border + tinted background</td></tr>
+<tr><td>Top bar</td><td>Search box left, notification bell + avatar/name right</td></tr>
+<tr><td>Big stat numbers</td><td>32–40px bold, small trend caption below ("↑ improved from last week")</td></tr>
+<tr><td>Weekly bar mini-chart</td><td>7 rounded pill bars (S M T W T F S), height = % of day completed, current day highlighted solid dark green</td></tr>
+<tr><td>Progress rings</td><td>Circular donut, center % label, used for subject-unit completion and Prelims/Mains readiness</td></tr>
+<tr><td>Animations</td><td>Framer Motion: page fade+slide transitions (200ms), count-up number animation on stat cards, progress-ring fill animation on load, confetti burst on streak milestones (7/30/100 days), skeleton loaders while data fetches</td></tr>
+</table>
+
+<h1 id="sec11">11. Information Architecture / Sitemap</h1>
+<pre>
+/                 → Landing page (public)
+/login            → Auth
+/dashboard        → Home (protected)
+/timetable        → Weekly interactive timetable
+/upsc             → UPSC GS Macro-Roadmap + daily micro-topics
+/academics        → 4-subject unit tracker + exam sprint calendar
+/content          → Content calendar + Kanban
+/analytics        → Charts &amp; history
+/settings         → Editable config
+</pre>
+
+<h1 id="sec12">12. Database Schema (Neon Postgres)</h1>
+<pre>
+users(
+  id UUID PK, name TEXT, dob DATE, upsc_attempt_year INT,
+  prelims_date DATE, mains_date DATE, created_at TIMESTAMPTZ
+)
+
+settings(
+  user_id UUID FK, wake_time TIME, sleep_time TIME,
+  travel_minutes_each_way INT DEFAULT 60,
+  optional_subject_name TEXT, notif_email BOOLEAN,
+  updated_at TIMESTAMPTZ
+)
+
+subjects(
+  id UUID PK, type TEXT CHECK (type IN ('academic','upsc_gs','upsc_optional','content')),
+  name TEXT, exam_date DATE NULL, total_units INT NULL
+)
+
+micro_topics(
+  id UUID PK, subject_id UUID FK, day_number INT, title TEXT,
+  subtopics JSONB, resources JSONB,
+  planned_date DATE, status TEXT CHECK (status IN ('pending','done','missed','rescheduled')),
+  completed_at TIMESTAMPTZ NULL
+)
+
+timetable_slots(
+  id UUID PK, day_of_week TEXT, start_time TIME, end_time TIME,
+  slot_type TEXT CHECK (slot_type IN ('class','free','lunch')),
+  label TEXT
+)
+
+daily_template_blocks(
+  id UUID PK, template_name TEXT CHECK (template_name IN ('default','exam_sprint')),
+  day_type TEXT CHECK (day_type IN ('weekday','saturday','sunday')),
+  start_time TIME, end_time TIME, category TEXT, label TEXT, sort_order INT
+)
+
+study_sessions(
+  id UUID PK, user_id UUID FK, date DATE, block_label TEXT,
+  subject_id UUID FK NULL, planned_minutes INT, actual_minutes INT DEFAULT 0,
+  status TEXT CHECK (status IN ('pending','done','missed','rescheduled')), notes TEXT
+)
+
+content_calendar(
+  id UUID PK, date DATE, content_type TEXT CHECK (content_type IN ('reel','short','long_video')),
+  title TEXT, stage TEXT CHECK (stage IN ('idea','scripted','shot','edited','published')),
+  platform TEXT, publish_at TIMESTAMPTZ NULL
+)
+
+tasks(
+  id UUID PK, date DATE, title TEXT, category TEXT,
+  status TEXT CHECK (status IN ('pending','done')), priority TEXT
+)
+
+streaks(
+  id UUID PK, category TEXT, current_streak INT, longest_streak INT, last_completed_date DATE
+)
+
+audit_log(
+  id UUID PK, entity_id UUID, action TEXT, original_date DATE, new_date DATE, reason TEXT, created_at TIMESTAMPTZ
+)
+</pre>
+
+<h1 id="sec13">13. API Specification (Render — Node/Express, thin REST layer)</h1>
+<table>
+<tr><th>Method</th><th>Route</th><th>Purpose</th></tr>
+<tr><td>POST</td><td>/api/auth/login</td><td>Verify password, issue JWT</td></tr>
+<tr><td>GET</td><td>/api/dashboard-summary</td><td>Countdowns, today's blocks, streaks, pace status</td></tr>
+<tr><td>GET</td><td>/api/timetable?template=&amp;day=</td><td>Fetch merged schedule for a given day/template</td></tr>
+<tr><td>GET</td><td>/api/study-sessions?date=</td><td>List sessions for a date</td></tr>
+<tr><td>PATCH</td><td>/api/study-sessions/:id</td><td>Mark done/actual_minutes; triggers Rule 1 if missed</td></tr>
+<tr><td>GET</td><td>/api/upsc/roadmap</td><td>Phase table + progress</td></tr>
+<tr><td>GET</td><td>/api/upsc/micro-topics?subject=</td><td>Day-wise topic list + status</td></tr>
+<tr><td>GET</td><td>/api/academics/subjects</td><td>4 subjects with unit progress</td></tr>
+<tr><td>GET/POST</td><td>/api/content-calendar</td><td>Read/create calendar items</td></tr>
+<tr><td>PATCH</td><td>/api/content-calendar/:id</td><td>Move Kanban stage</td></tr>
+<tr><td>GET/PUT</td><td>/api/settings</td><td>Read/update editable config (dates, times, optional subject)</td></tr>
+<tr><td>POST</td><td>/api/reschedule/run</td><td>Manually trigger the auto-adjust engine (also runs on a daily cron)</td></tr>
+<tr><td>GET</td><td>/api/analytics</td><td>Aggregated stats for charts</td></tr>
+</table>
+
+<h1 id="sec14">14. Tech Stack &amp; Hosting Architecture</h1>
+<table>
+<tr><th>Layer</th><th>Choice</th><th>Why</th></tr>
+<tr><td>Frontend</td><td>Vite + React 18 + TypeScript + Tailwind CSS + Framer Motion + Recharts + React Query + React Router</td><td>Fast dev, typed, matches "React, HTML, CSS, Tailwind, TypeScript" requirement</td></tr>
+<tr><td>Hosting (frontend)</td><td>Netlify (free tier)</td><td>Static build, auto-deploy from GitHub</td></tr>
+<tr><td>Backend API</td><td>Node.js + Express (or Fastify), ~10 routes, stateless</td><td>Minimal necessary layer to talk to Postgres securely; free on Render</td></tr>
+<tr><td>Hosting (backend)</td><td>Render free web service</td><td>As specified; note free tier sleeps after inactivity — first request/day may take ~30s to wake</td></tr>
+<tr><td>Database</td><td>Neon Postgres (serverless, free tier)</td><td>As specified; connect via <code>@neondatabase/serverless</code> driver or standard <code>pg</code> pool</td></tr>
+<tr><td>Auth</td><td>Single-user JWT (short-lived token + refresh in httpOnly cookie)</td><td>This is a personal single-user app — no need for full multi-tenant auth</td></tr>
+<tr><td>Cron</td><td>Render Cron Job (daily, midnight IST) calling <code>/api/reschedule/run</code></td><td>Drives Rule 1/2/3 of the Auto-Adjust Engine</td></tr>
+</table>
+<pre>
+Repo structure:
+/frontend   (Vite React app  → deployed to Netlify)
+/backend    (Express API     → deployed to Render)
+/backend/db (SQL migration files, seed scripts)
+</pre>
+
+<h1 id="sec15">15. Non-Functional Requirements</h1>
+<ul>
+<li>Entire stack must run on free tiers (Netlify free, Render free web service, Neon free tier).</li>
+<li>Mobile-responsive — Sai will check/tick tasks on his phone between college periods.</li>
+<li>All writes optimistic in the UI (tick a box → instant visual feedback → background sync), so it feels realtime even on Render's free-tier cold starts.</li>
+<li>No external user data collected — single-user personal tool; still, JWT + HTTPS only.</li>
+<li>Dates/times must be handled in Asia/Kolkata timezone throughout, both frontend display and backend cron.</li>
+</ul>
+
+<h1 id="sec16">16. Build Roadmap for the Coding Agent</h1>
+<ol>
+<li>Scaffold repo (frontend + backend folders), set up Tailwind + design tokens from Section 10.</li>
+<li>Provision Neon DB, run schema from Section 12, write seed scripts (Section 17) for college timetable, default/exam-sprint templates, and the UPSC micro-planner dataset.</li>
+<li>Build Express API routes (Section 13), deploy to Render, confirm CORS to Netlify domain.</li>
+<li>Build Landing + Login pages.</li>
+<li>Build Dashboard with live countdowns and today's schedule (core loop).</li>
+<li>Build Timetable page (weekly interactive view).</li>
+<li>Build UPSC Tracker + Academic Tracker pages.</li>
+<li>Build Content Studio (calendar + Kanban).</li>
+<li>Implement Auto-Adjust Engine (Rules 1–4) as backend cron + on-demand endpoint.</li>
+<li>Build Analytics page.</li>
+<li>Build Settings page (editable dates/times/timetable/optional subject).</li>
+<li>Polish: animations, empty states, mobile responsiveness, streak confetti.</li>
+</ol>
+
+<h1 id="sec17">17. Appendix — Seed Data Formats</h1>
+<h3>17.1 Micro-topic seed JSON (example — Ancient History Day 3)</h3>
+<pre>
+{
+  "subject": "History",
+  "day_number": 3,
+  "title": "Indus Valley Civilization",
+  "subtopics": [
+    "Discovery & excavations", "Geographical extent",
+    "Town planning & drainage", "Economic life (trade & craft)",
+    "Religion & seals", "Script & administration",
+    "Decline theories", "PYQ themes"
+  ],
+  "resources": [
+    "NCERT Class 6 – Our Pasts I",
+    "Ancient India – R.S. Sharma",
+    "Ancient India – Upinder Singh"
+  ]
+}
+</pre>
+<p class="small">The full 243-day dataset across all 13 GS subjects (Polity, History, Economy &amp; Agriculture, Geography, Science &amp; Tech, Environment, Ethics, Indian Society, International Relations, Governance, Social Justice, Disaster Management, Internal Security) should be parsed from the supplied Micro-Planner PDF into this exact JSON shape and bulk-inserted into <code>micro_topics</code> at setup time.</p>
+
+<h3>17.2 Default daily template seed (weekday, abridged)</h3>
+<pre>
+[
+  {"start":"05:20","end":"06:45","category":"upsc","label":"UPSC Deep Study — Block A"},
+  {"start":"07:30","end":"08:45","category":"travel","label":"Travel to college"},
+  {"start":"17:45","end":"19:00","category":"content","label":"Content Creation Block"},
+  {"start":"19:45","end":"21:45","category":"upsc","label":"UPSC Deep Study — Block B"},
+  {"start":"21:45","end":"22:30","category":"academic","label":"Academic subject study"}
+]
+</pre>
+
+<h3>17.3 Exam-sprint override seed</h3>
+<pre>
+{
+  "template_name": "exam_sprint",
+  "active_from": "2026-10-15",
+  "active_to": "2026-11-26",
+  "blocks": [
+    {"start":"19:45","end":"20:15","category":"upsc","label":"UPSC maintenance revision"},
+    {"start":"21:15","end":"23:00","category":"academic","label":"Academic Sprint — rotating unit"}
+  ]
+}
+</pre>
+
+<hr>
+<p class="small">End of document. All placeholder dates (Prelims/Mains) must be surfaced as editable settings in the live app, not hardcoded — everything else in this PRD (college timetable, exam dates, micro-planner content) is fixed source data provided by Sai and should be seeded as-is.</p>
+
+</body>
+</html>
