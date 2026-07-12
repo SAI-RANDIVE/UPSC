@@ -3,58 +3,58 @@ import type { TimetableSlot, TemplateBlock, UPSCPhase, Subject, SprintWeek, Micr
 let _id = 0;
 const uid = () => `seed-${++_id}`;
 
-// ===== COLLEGE TIMETABLE (FM Batch 2 - no lab, theory only) =====
+// ===== COLLEGE TIMETABLE (SEM-V, Div-B, Batch 2024-28, AY 2026-27 ODD) =====
 export const collegeTimetable: TimetableSlot[] = [
-  // Monday
-  { id: uid(), dayOfWeek:'Mon', startTime:'08:45', endTime:'09:40', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'09:40', endTime:'10:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'10:40', endTime:'11:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'12:30', endTime:'13:25', slotType:'class', label:'CN' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'13:25', endTime:'14:20', slotType:'class', label:'DAA' },
-  { id: uid(), dayOfWeek:'Mon', startTime:'14:25', endTime:'15:20', slotType:'free', label:'Free' },
+  // Monday — CNL Lab (B3, ANG, C10) then FREE, Lunch, CN, DAA
+  { id: uid(), dayOfWeek:'Mon', startTime:'09:00', endTime:'10:50', slotType:'class', label:'CNL (Lab B3, ANG)' },
+  { id: uid(), dayOfWeek:'Mon', startTime:'10:50', endTime:'11:45', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Mon', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Mon', startTime:'12:40', endTime:'13:35', slotType:'class', label:'CN (ANG)' },
+  { id: uid(), dayOfWeek:'Mon', startTime:'13:35', endTime:'14:30', slotType:'class', label:'DAA (SPR)' },
+  { id: uid(), dayOfWeek:'Mon', startTime:'14:30', endTime:'15:25', slotType:'free', label:'Free' },
   { id: uid(), dayOfWeek:'Mon', startTime:'15:25', endTime:'16:20', slotType:'free', label:'Free' },
-  // Tuesday
-  { id: uid(), dayOfWeek:'Tue', startTime:'08:45', endTime:'09:40', slotType:'class', label:'DAA' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'09:40', endTime:'10:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'10:40', endTime:'11:35', slotType:'class', label:'FM (Theory)' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'12:30', endTime:'13:25', slotType:'class', label:'CN' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'13:25', endTime:'14:20', slotType:'class', label:'TOC' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'14:25', endTime:'15:20', slotType:'class', label:'POE' },
-  { id: uid(), dayOfWeek:'Tue', startTime:'15:25', endTime:'16:20', slotType:'class', label:'POE' },
-  // Wednesday
-  { id: uid(), dayOfWeek:'Wed', startTime:'08:45', endTime:'10:35', slotType:'class', label:'DAAL (Lab, B3)' },
-  { id: uid(), dayOfWeek:'Wed', startTime:'10:40', endTime:'11:35', slotType:'class', label:'FM (Theory)' },
-  { id: uid(), dayOfWeek:'Wed', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Wed', startTime:'12:30', endTime:'13:25', slotType:'class', label:'TOC' },
-  { id: uid(), dayOfWeek:'Wed', startTime:'13:25', endTime:'14:20', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Wed', startTime:'14:25', endTime:'15:20', slotType:'free', label:'Free' },
+  // Tuesday — DAA, FREE, Open Elective FM2, Lunch, CN, TOC, POE x2
+  { id: uid(), dayOfWeek:'Tue', startTime:'09:00', endTime:'09:55', slotType:'class', label:'DAA (SPR)' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'09:55', endTime:'10:50', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'10:50', endTime:'11:45', slotType:'class', label:'Open Elective: FM2 (APD)' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'12:40', endTime:'13:35', slotType:'class', label:'CN (ANG)' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'13:35', endTime:'14:30', slotType:'class', label:'TOC (MHW)' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'14:30', endTime:'15:25', slotType:'class', label:'POE (ASB)' },
+  { id: uid(), dayOfWeek:'Tue', startTime:'15:25', endTime:'16:20', slotType:'class', label:'POE (ASB)' },
+  // Wednesday — DAAL Lab (B3, DIH, C09), Open Elective FM2, Lunch, TOC, FREE x3
+  { id: uid(), dayOfWeek:'Wed', startTime:'09:00', endTime:'10:50', slotType:'class', label:'DAAL (Lab B3, DIH)' },
+  { id: uid(), dayOfWeek:'Wed', startTime:'10:50', endTime:'11:45', slotType:'class', label:'Open Elective: FM2 (APD)' },
+  { id: uid(), dayOfWeek:'Wed', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Wed', startTime:'12:40', endTime:'13:35', slotType:'class', label:'TOC (MHW)' },
+  { id: uid(), dayOfWeek:'Wed', startTime:'13:35', endTime:'14:30', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Wed', startTime:'14:30', endTime:'15:25', slotType:'free', label:'Free' },
   { id: uid(), dayOfWeek:'Wed', startTime:'15:25', endTime:'16:20', slotType:'free', label:'Free' },
-  // Thursday
-  { id: uid(), dayOfWeek:'Thu', startTime:'08:45', endTime:'09:40', slotType:'class', label:'CN' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'09:40', endTime:'10:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'10:40', endTime:'11:35', slotType:'class', label:'FM (Theory)' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'12:30', endTime:'13:25', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'13:25', endTime:'14:20', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Thu', startTime:'14:25', endTime:'16:20', slotType:'class', label:'Flexi (AKK)' },
-  // Friday
-  { id: uid(), dayOfWeek:'Fri', startTime:'08:45', endTime:'09:40', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'09:40', endTime:'10:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'10:40', endTime:'11:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'12:30', endTime:'13:25', slotType:'class', label:'TOC' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'13:25', endTime:'14:20', slotType:'class', label:'DAA' },
-  { id: uid(), dayOfWeek:'Fri', startTime:'14:25', endTime:'16:20', slotType:'class', label:'CNL (B3)' },
-  // Saturday
-  { id: uid(), dayOfWeek:'Sat', startTime:'08:45', endTime:'09:40', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'09:40', endTime:'10:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'10:40', endTime:'11:35', slotType:'free', label:'Free' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'11:35', endTime:'12:30', slotType:'lunch', label:'Lunch' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'12:30', endTime:'13:25', slotType:'class', label:'Flexi' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'13:25', endTime:'14:20', slotType:'class', label:'Flexi' },
-  { id: uid(), dayOfWeek:'Sat', startTime:'14:25', endTime:'15:20', slotType:'free', label:'Free' },
+  // Thursday — CN, FREE, Open Elective FM2, Lunch, FREE x2, Flexi (BKP) x2
+  { id: uid(), dayOfWeek:'Thu', startTime:'09:00', endTime:'09:55', slotType:'class', label:'CN (ANG)' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'09:55', endTime:'10:50', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'10:50', endTime:'11:45', slotType:'class', label:'Open Elective: FM2 (APD)' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'12:40', endTime:'13:35', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'13:35', endTime:'14:30', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Thu', startTime:'14:30', endTime:'16:20', slotType:'class', label:'Flexi (BKP)' },
+  // Friday — FREE x3, Lunch, TOC, DAA, FREE x2
+  { id: uid(), dayOfWeek:'Fri', startTime:'09:00', endTime:'09:55', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'09:55', endTime:'10:50', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'10:50', endTime:'11:45', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'12:40', endTime:'13:35', slotType:'class', label:'TOC (MHW)' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'13:35', endTime:'14:30', slotType:'class', label:'DAA (SPR)' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'14:30', endTime:'15:25', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Fri', startTime:'15:25', endTime:'16:20', slotType:'free', label:'Free' },
+  // Saturday — FREE x3, Lunch, Flexi (BKP) x2, FREE x2
+  { id: uid(), dayOfWeek:'Sat', startTime:'09:00', endTime:'09:55', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'09:55', endTime:'10:50', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'10:50', endTime:'11:45', slotType:'free', label:'Free' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'11:45', endTime:'12:40', slotType:'lunch', label:'Lunch' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'12:40', endTime:'13:35', slotType:'class', label:'Flexi (BKP)' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'13:35', endTime:'14:30', slotType:'class', label:'Flexi (BKP)' },
+  { id: uid(), dayOfWeek:'Sat', startTime:'14:30', endTime:'15:25', slotType:'free', label:'Free' },
   { id: uid(), dayOfWeek:'Sat', startTime:'15:25', endTime:'16:20', slotType:'free', label:'Free' },
 ];
 
@@ -62,8 +62,8 @@ export const collegeTimetable: TimetableSlot[] = [
 const defaultWeekday: Omit<TemplateBlock,'id'>[] = [
   { templateName:'default', dayType:'weekday', startTime:'06:00', endTime:'06:30', category:'routine', label:'Wake, freshen, water', sortOrder:1 },
   { templateName:'default', dayType:'weekday', startTime:'06:30', endTime:'07:30', category:'upsc', label:'UPSC Deep Study (Morning)', sortOrder:2 },
-  { templateName:'default', dayType:'weekday', startTime:'07:30', endTime:'08:45', category:'travel', label:'Breakfast & Travel to college', sortOrder:3 },
-  { templateName:'default', dayType:'weekday', startTime:'08:45', endTime:'16:20', category:'college', label:'College & Current Affairs', sortOrder:4 },
+  { templateName:'default', dayType:'weekday', startTime:'07:30', endTime:'09:00', category:'travel', label:'Breakfast & Travel to college', sortOrder:3 },
+  { templateName:'default', dayType:'weekday', startTime:'09:00', endTime:'16:20', category:'college', label:'College & Current Affairs', sortOrder:4 },
   { templateName:'default', dayType:'weekday', startTime:'16:20', endTime:'17:20', category:'travel', label:'Travel home', sortOrder:5 },
   { templateName:'default', dayType:'weekday', startTime:'17:20', endTime:'18:30', category:'routine', label:'Rest & Freshen', sortOrder:6 },
   { templateName:'default', dayType:'weekday', startTime:'18:30', endTime:'20:00', category:'college', label:'Internship (Work from home)', sortOrder:7 },
@@ -75,8 +75,8 @@ const defaultWeekday: Omit<TemplateBlock,'id'>[] = [
 
 const defaultSaturday: Omit<TemplateBlock,'id'>[] = [
   { templateName:'default', dayType:'saturday', startTime:'06:00', endTime:'07:30', category:'upsc', label:'UPSC Deep Study (Morning)', sortOrder:1 },
-  { templateName:'default', dayType:'saturday', startTime:'07:30', endTime:'08:45', category:'travel', label:'Breakfast & Travel to college', sortOrder:2 },
-  { templateName:'default', dayType:'saturday', startTime:'08:45', endTime:'16:20', category:'college', label:'College (Free periods)', sortOrder:3 },
+  { templateName:'default', dayType:'saturday', startTime:'07:30', endTime:'09:00', category:'travel', label:'Breakfast & Travel to college', sortOrder:2 },
+  { templateName:'default', dayType:'saturday', startTime:'09:00', endTime:'16:20', category:'college', label:'College (Free periods)', sortOrder:3 },
   { templateName:'default', dayType:'saturday', startTime:'16:20', endTime:'17:20', category:'travel', label:'Travel home', sortOrder:4 },
   { templateName:'default', dayType:'saturday', startTime:'17:20', endTime:'18:00', category:'routine', label:'Rest', sortOrder:5 },
   { templateName:'default', dayType:'saturday', startTime:'18:00', endTime:'20:00', category:'content', label:'Content Creation (Scripting/Shooting)', sortOrder:6 },
@@ -103,12 +103,13 @@ export const templateBlocks: TemplateBlock[] = [
   ...defaultSunday.map(b => ({ ...b, id: uid() })),
 ];
 
-// ===== ACADEMIC SUBJECTS =====
+// ===== ACADEMIC SUBJECTS (SEM-V, AY 2026-27 ODD) =====
 export const academicSubjects: Subject[] = [
   { id:'toc', type:'academic', name:'Theory of Computation', examDate:'2026-11-17', totalUnits:5 },
   { id:'cn', type:'academic', name:'Computer Networks', examDate:'2026-11-19', totalUnits:5 },
   { id:'daa', type:'academic', name:'Design & Analysis of Algorithms', examDate:'2026-11-24', totalUnits:5 },
-  { id:'fm', type:'academic', name:'Financial Mathematics', examDate:'2026-11-26', totalUnits:5 },
+  { id:'fm2', type:'academic', name:'Open Elective: Financial Mathematics 2', examDate:'2026-11-26', totalUnits:5 },
+  { id:'poe', type:'academic', name:'Principles of Economics', examDate:'2026-11-28', totalUnits:5 },
 ];
 
 // ===== UPSC GS SUBJECTS =====
